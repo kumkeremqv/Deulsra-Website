@@ -30,7 +30,6 @@
             overflow-x: hidden;
         }
 
-        /* --- Navigasyon --- */
         nav {
             position: fixed;
             top: 0;
@@ -59,7 +58,6 @@
             text-shadow: 0 0 10px var(--neon-blue);
         }
 
-        /* --- Hero Section --- */
         #hero {
             height: 100vh;
             display: flex;
@@ -95,7 +93,6 @@
             50% { opacity: 0.2; }
         }
 
-        /* --- İçerik Bölümleri --- */
         section.content-section {
             padding: 100px 10%;
             min-height: 40vh;
@@ -123,6 +120,9 @@
             border-radius: 10px;
             border: 1px solid #1a1a20;
             transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card:hover {
@@ -140,9 +140,32 @@
         .card p {
             color: var(--text-gray);
             line-height: 1.6;
+            margin-bottom: 20px;
         }
 
-        /* --- Footer --- */
+        /* --- Yeni Eklenen Neon Buton Stili --- */
+        .neon-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: var(--neon-blue);
+            text-decoration: none;
+            border: 1px solid var(--neon-blue);
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            text-align: center;
+            align-self: flex-start;
+        }
+
+        .neon-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
         footer {
             padding: 50px 20px;
             text-align: center;
@@ -179,69 +202,4 @@
 <body>
 
     <nav>
-        <a href="#hero">Ana Sayfa</a>
-        <a href="#sosyal">Deulsra Sosyal</a>
-        <a href="#projeler">Projeler</a>
-        <a href="#arastirmalar">Araştırmalar</a>
-    </nav>
-
-    <section id="hero">
-        <h1 class="deulsra-main">DEULSRA</h1>
-        <p class="coming-soon">ÇOK YAKINDA</p>
-    </section>
-
-    <section id="sosyal" class="content-section">
-        <h2>Deulsra Sosyal</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Eğitim İçerikleri</h3>
-                <p>Elektrik-elektronik mühendisliği temelleri ve teknik devre analizleri üzerine eğitici içerikler yakında yayında.</p>
-            </div>
-            <div class="card">
-                <h3>Mühendislik Vizyonu</h3>
-                <p>Geleceğin teknolojilerini öğrenme ve uygulama süreçlerimizi paylaştığımız dijital topluluk.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="projeler" class="content-section">
-        <h2>Projeler</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>İHA Tasarımı</h3>
-                <p>Fusion 360 ile geliştirilen, Bayraktar Akıncı ilhamlı yüksek verimli motor ve pervane projeleri.</p>
-            </div>
-            <div class="card">
-                <h3>RF Sistemleri</h3>
-                <p>Gelişmiş radyo vericisi ve alıcısı devre tasarımları ile kablosuz haberleşme çözümleri.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="arastirmalar" class="content-section">
-        <h2>Araştırmalar</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Soğutma Teknolojileri</h3>
-                <p>Bilgisayar bileşenleri ve GPU sistemleri için yenilikçi termal yönetim çözümleri üzerinde çalışmalarımız sürüyor.</p>
-            </div>
-            <div class="card">
-                <h3>Gömülü Yazılım</h3>
-                <p>Otonom sistemler ve mikrodenetleyiciler için optimize edilmiş kontrol algoritmaları üzerine Ar-Ge süreci.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="social-icons">
-            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
-            <a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        </div>
-        <p class="copyright">&copy; 2026 DEULSRA</p>
-    </footer>
-
-</body>
-</html>
-
+        <a href="#hero">
