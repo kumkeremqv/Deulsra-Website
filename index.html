@@ -16,190 +16,93 @@
             --text-gray: #b0b0b0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: white;
-            font-family: 'Roboto', sans-serif;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: white; font-family: 'Roboto', sans-serif; overflow-x: hidden; }
 
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px;
-            background: rgba(5, 5, 7, 0.9);
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            z-index: 1000;
+            position: fixed; top: 0; width: 100%; padding: 20px; background: rgba(5, 5, 7, 0.9);
+            display: flex; justify-content: center; gap: 30px; z-index: 1000;
             border-bottom: 1px solid rgba(0, 229, 255, 0.1);
         }
-
         nav a {
-            color: white;
-            text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            text-transform: uppercase;
+            color: white; text-decoration: none; font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem; letter-spacing: 2px; transition: 0.3s; text-transform: uppercase;
         }
-
-        nav a:hover {
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
+        nav a:hover { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
 
         #hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: radial-gradient(circle at center, #101015 0%, #050507 100%);
         }
-
         .deulsra-main {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 12vw, 9rem);
-            font-weight: 700;
-            letter-spacing: 15px;
-            background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.5));
-            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif; font-size: clamp(3rem, 12vw, 9rem); font-weight: 700;
+            letter-spacing: 15px; background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.5)); margin-bottom: 10px;
         }
-
         .coming-soon {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1rem, 4vw, 2.5rem);
-            color: var(--neon-red);
-            letter-spacing: 8px;
-            text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red);
+            font-family: 'Orbitron', sans-serif; font-size: clamp(1rem, 4vw, 2.5rem); color: var(--neon-red);
+            letter-spacing: 8px; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red);
             animation: blink 1.5s infinite;
         }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
-
-        section.content-section {
-            padding: 100px 10%;
-            min-height: 40vh;
-            border-top: 1px solid rgba(213, 0, 249, 0.1);
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
+        section.content-section { padding: 100px 10%; min-height: 40vh; border-top: 1px solid rgba(213, 0, 249, 0.1); }
+        h2 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 40px; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 4px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
         .card {
-            background: #0d0d12;
-            padding: 30px;
-            border-radius: 10px;
-            border: 1px solid #1a1a20;
-            transition: 0.4s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: #0d0d12; padding: 30px; border-radius: 10px; border: 1px solid #1a1a20;
+            transition: 0.4s; display: flex; flex-direction: column; justify-content: space-between;
         }
-
-        .card:hover {
-            border-color: var(--neon-pink);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(213, 0, 249, 0.1);
-        }
-
-        .card h3 {
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 15px;
-            color: var(--neon-pink);
-        }
-
-        .card p {
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        /* --- Yeni Eklenen Neon Buton Stili --- */
+        .card:hover { border-color: var(--neon-pink); transform: translateY(-5px); box-shadow: 0 0 20px rgba(213, 0, 249, 0.1); }
+        .card h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 15px; color: var(--neon-pink); }
+        .card p { color: var(--text-gray); line-height: 1.6; margin-bottom: 20px; }
+        
         .neon-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            color: var(--neon-blue);
-            text-decoration: none;
-            border: 1px solid var(--neon-blue);
-            border-radius: 5px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-            text-align: center;
-            align-self: flex-start;
+            display: inline-block; padding: 10px 20px; color: var(--neon-blue); text-decoration: none;
+            border: 1px solid var(--neon-blue); border-radius: 5px; font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            text-align: center; align-self: flex-start;
         }
+        .neon-btn:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
 
-        .neon-btn:hover {
-            background: var(--neon-blue);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
-
-        footer {
-            padding: 50px 20px;
-            text-align: center;
-            background: #030305;
-            border-top: 1px solid rgba(0, 229, 255, 0.1);
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .social-icons a {
-            color: white;
-            font-size: 2rem;
-            transition: 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: var(--neon-blue);
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 10px var(--neon-blue));
-        }
-
-        .copyright {
-            font-size: 0.8rem;
-            color: #555;
-            letter-spacing: 1px;
-        }
+        footer { padding: 50px 20px; text-align: center; background: #030305; border-top: 1px solid rgba(0, 229, 255, 0.1); }
+        .social-icons { display: flex; justify-content: center; gap: 40px; margin-bottom: 30px; }
+        .social-icons a { color: white; font-size: 2rem; transition: 0.3s; }
+        .social-icons a:hover { color: var(--neon-blue); transform: scale(1.2); filter: drop-shadow(0 0 10px var(--neon-blue)); }
+        .copyright { font-size: 0.8rem; color: #555; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#hero">
+        <a href="#hero">Ana Sayfa</a>
+        <a href="#sosyal">Deulsra Sosyal</a>
+        <a href="#projeler">Projeler</a>
+        <a href="#arastirmalar">Araştırmalar</a>
+    </nav>
+
+    <section id="hero">
+        <h1 class="deulsra-main">DEULSRA</h1>
+        <p class="coming-soon">ÇOK YAKINDA</p>
+    </section>
+
+    <section id="sosyal" class="content-section">
+        <h2>Deulsra Sosyal</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Eğitim İçerikleri</h3>
+                <p>Elektrik-elektronik mühendisliği temelleri ve teknik devre analizleri üzerine eğitici içerikler.</p>
+                <a href="egitim.html" class="neon-btn">Sayfaya Git</a>
+            </div>
+            <div class="card">
+                <h3>Mühendislik Vizyonu</h3>
+                <p>Geleceğin teknolojilerini öğrenme ve global kaynakları takip etme süreçlerimiz.</p>
+                <a href="vizyon.html" class="neon-btn">Sayfaya Git</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projeler" class="content-section">
+        <h2>Projeler</h2>
