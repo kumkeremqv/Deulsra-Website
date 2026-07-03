@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+    <!-- Three.js'i modül olarak dışarıdan çekmek için Import Map -->
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+</script>
+
+<!-- GSAP Animasyon Kütüphanesi -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEULSRA | Mühendislik</title>
@@ -91,6 +102,11 @@
     </style>
 </head>
 <body>
+    <!-- 3D Efektin Çizileceği Tuval -->
+ <canvas id="bg-canvas"></canvas>
+
+<!-- Kendi JavaScript dosyanı çağır (Adı main.js veya script.js olabilir) -->
+ <script type="module" src="main.js"></script>
 
     <nav>
         <a href="#hero">Ana Sayfa</a>
