@@ -195,117 +195,138 @@
     </footer>
 
     <script type="module">
-        import * as THREE from 'three';
+     import * as THREE from 'three';
 
-        // 1. Kurulum Alanı
-        const canvas = document.querySelector('#bg-canvas');
-        const scene = new THREE.Scene();
+// 1. Kurulum Alanı
+const canvas = document.querySelector('#bg-canvas');
+const scene = new THREE.Scene();
 
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 2.3;
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 2.0; // Kamerayı biraz daha yaklaştırdık, etkiyi büyütmek için
 
-        const renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true,
-            alpha: true
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // 2. DEULSRA Özel Geometri ve Neon Parçacıkları
-        const particlesGeometry = new THREE.BufferGeometry();
-        const count = 3500; // Ekranda süzülecek toplam parçacık adedi
+// 2. VİDEODAKİ GİBİ DALGALI ENERJİ KÜRESİ YAPISI
+const particlesGeometry = new THREE.BufferGeometry();
+const count = 6000; // Parçacık sayısını artırdık, videodaki gibi yoğun görünsün
 
-        const positions = new Float32Array(count * 3);
-        const colors = new Float32Array(count * 3);
+const positions = new Float32Array(count * 3);
+const colors = new Float32Array(count * 3);
 
-        for(let i = 0; i < count * 3; i += 3) {
-            // Parçacıkları derinliği olan bir alana dağıtıyoruz
-            positions[i] = (Math.random() - 0.5) * 6.5;     // X ekseni
-            positions[i+1] = (Math.random() - 0.5) * 6.5;   // Y ekseni
-            positions[i+2] = (Math.random() - 0.5) * 5.0;   // Z ekseni (Derinlik)
+// Matematiksel olarak parçacıkları rastgele değil, sarmal bir yapıya (girdaba) göre diziyoruz
+for(let i = 0; i < count * 3; i += 3) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.random() * 2.5; // Merkezden dışarıya doğru yayılım
 
-            // Renkleri rastgele DEULSRA Mavisi (#00e5ff) veya DEULSRA Pembesi (#d500f9) yapıyoruz
-            if(Math.random() > 0.5) {
-                // Neon Mavi Tonu
-                colors[i] = 0.0;     // R
-                colors[i+1] = 0.9;   // G
-                colors[i+2] = 1.0;   // B
-            } else {
-                // Neon Pembe Tonu
-                colors[i] = 0.83;    // R
-                colors[i+1] = 0.0;   // G
-                colors[i+2] = 0.98;  // B
-            }
-        }
+    // Videodaki gibi ortası yoğun, dışları sarmal yapı
+    positions[i] = Math.cos(angle) * radius;     // X
+    positions[i+1] = Math.sin(angle) * radius;   // Y
+    positions[i+2] = (Math.random() - 0.5) * 1.5; // Z (Derinlik)
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    // DEULSRA Neon Renk Dağılımı
+    if(Math.random() > 0.4) {
+        colors[i] = 0.0;     // R (Neon Mavi)
+        colors[i+1] = 0.9;   // G
+        colors[i+2] = 1.0;   // B
+    } else {
+        colors[i] = 0.83;    // R (Neon Pembe)
+        colors[i+1] = 0.0;   // G
+        colors[i+2] = 0.98;  // B
+    }
+}
 
-        // Noktaların parlamasını ve yumuşak görünmesini sağlayan materyal ayarı
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.016,
-            sizeAttenuation: true,
-            vertexColors: true,
-            blending: THREE.AdditiveBlending, // Üste binen neonların parlama şiddetini artırır
-            depthWrite: false,
-            transparent: true,
-            opacity: 0.85
-        });
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particles);
+// Parçacıkların kare değil, parlayan yuvarlaklar gibi görünmesi için tarayıcıda küçük bir materyal simülasyonu yapıyoruz
+const particlesMaterial = new THREE.PointsMaterial({
+    size: 0.018,
+    sizeAttenuation: true,
+    vertexColors: true,
+    blending: THREE.AdditiveBlending, 
+    depthWrite: false,
+    transparent: true,
+    opacity: 0.9
+});
 
-        // 3. Fare Hareketlerini Yakalama
-        let mouseX = 0;
-        let mouseY = 0;
+const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
 
-        window.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
-        });
+// 3. Gelişmiş Fare Etkileşimi
+let mouseX = 0;
+let mouseY = 0;
+let targetX = 0;
+let targetY = 0;
 
-        // Mobil cihazlar için hafif yalpalama (dokunmatik kaydırmalarda etki etmesi için)
-        window.addEventListener('touchmove', (event) => {
-            if(event.touches.length > 0) {
-                mouseX = (event.touches[0].clientX / window.innerWidth - 0.5) * 1.5;
-                mouseY = -(event.touches[0].clientY / window.innerHeight - 0.5) * 1.5;
-            }
-        });
+window.addEventListener('mousemove', (event) => {
+    // Fare koordinatlarını -1 ile 1 arasına normalize et
+    mouseX = (event.clientX / window.innerWidth - 0.5);
+    mouseY = -(event.clientY / window.innerHeight - 0.5);
+});
 
-        // 4. Sonsuz Animasyon Döngüsü (Tick)
-        const clock = new THREE.Clock();
+// 4. SİNHİRBURADA: AKIŞKAN DALGA VE HAREKET DÖNGÜSÜ
+const clock = new THREE.Clock();
+const posAttribute = particlesGeometry.attributes.position;
+// Orijinal pozisyonları sakla ki dalga efektini bunun üzerinden hesaplayalım
+const initialPositions = posAttribute.array.slice(); 
 
-        function animate() {
-            requestAnimationFrame(animate);
-            const elapsedTime = clock.getElapsedTime();
+function animate() {
+    requestAnimationFrame(animate);
+    const elapsedTime = clock.getElapsedTime();
 
-            // Sürekli uzay boşluğunda çok yavaş dönüş hissiyatı
-            particles.rotation.y = elapsedTime * 0.04;
-            particles.rotation.x = elapsedTime * 0.015;
+    // Fare hareketini yumuşatmak için gecikmeli takip (Lerp algoritması)
+    targetX += (mouseX - targetX) * 0.05;
+    targetY += (mouseY - targetY) * 0.05;
 
-            // Fare hareket ettiğinde sistemin esneyerek tepki vermesi (GSAP ile pürüzsüzleştirildi)
-            if (typeof gsap !== 'undefined') {
-                gsap.to(particles.rotation, {
-                    x: mouseY * 0.35,
-                    y: mouseX * 0.35,
-                    duration: 2.5,
-                    ease: 'power2.out'
-                });
-            }
+    // Tüm parçacıkların yerini videodaki gibi sinüs dalgalarıyla tek tek manipüle ediyoruz
+    for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
 
-            renderer.render(scene, camera);
-        }
+        // Orijinal X ve Y koordinatları
+        const initX = initialPositions[i3];
+        const initY = initialPositions[i3 + 1];
 
-        animate();
+        // Matematiksel Dalga Formülü (Videodaki o akışkan bükülme efekti)
+        // Her parçacık merkezden uzaklığına ve zamana (elapsedTime) göre dalgalanır
+        const distance = Math.sqrt(initX * initX + initY * initY);
+        const wave = Math.sin(distance * 3.0 - elapsedTime * 2.0) * 0.15;
 
-        // 5. Ekran Yeniden Boyutlandırıldığında (Responsive) Bozulmama Ayarı
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        });
+        // Z ekseninde dalgalanma yarat
+        posAttribute.array[i3 + 2] = initialPositions[i3 + 2] + wave;
+
+        // Fare yaklaştıkça parçacıkları hafifçe itme/çekme efekti
+        posAttribute.array[i3] = initX + (targetX * (1.0 / (distance + 0.5))) * 0.2;
+        posAttribute.array[i3 + 1] = initY + (targetY * (1.0 / (distance + 0.5))) * 0.2;
+    }
+    
+    // Three.js'e pozisyonların güncellendiğini bildir
+    posAttribute.needsUpdate = true;
+
+    // Küreyi kendi etrafında yavaşça döndür
+    particles.rotation.z = elapsedTime * 0.05;
+    
+    // Kamerayı fare hareketine göre hafifçe açıyla eğ (3D derinlik hissi)
+    particles.rotation.y = targetX * 0.5;
+    particles.rotation.x = -targetY * 0.5;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Responsive Ayarı
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
     </script>
 </body>
 </html>
